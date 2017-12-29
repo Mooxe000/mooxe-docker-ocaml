@@ -1,0 +1,12 @@
+.DS_Store
+.idea
+*_book
+npm-debug.log
+
+.tmp
+trash
+
+/**/node_modules
+/**/dist
+/**/build
+/**/vendor
