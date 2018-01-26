@@ -11,25 +11,33 @@ RUN \
 
 RUN \
   apt-get install -y \
-    ocaml-nox opam m4 utop
+    curl make gcc g++ libev-dev \
+    bzip2 unzip m4 \
+    rsync mercurial darcs 
+    # ocaml-nox opam m4 utop
+
+ADD opam/opam /usr/local/bin/opam
+RUN chmod +x /usr/local/bin/opam
+
+RUN opam init -y
 
 RUN \
-  opam init -y && \
-  opam install -y core utop
+  opam install -y conf-libev lwt utop \
+    core batteries \
+    ocamlscript 
 
 RUN \
+  # bash
   yes | opam init --shell=bash && \
-  bash -lc "eval `opam config env`"
-
-RUN \
+  bash -lc "eval `opam config env`" && \
+  # zsh
   yes | opam init --shell=zsh && \
-  zsh -lc "eval `opam config env`"
-
-RUN \
+  zsh -lc "eval `opam config env`" && \
+  # fish
   yes | opam init --shell=fish && \
   fish -lc "fisher edc/bass" && \
   fish -lc "bass eval opam config env"
-  
+
 RUN \
   echo '#\
 use "topfind";;\n#\

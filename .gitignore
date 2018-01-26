@@ -10,3 +10,5 @@ trash
 /**/dist
 /**/build
 /**/vendor
+
+/opam/opam
