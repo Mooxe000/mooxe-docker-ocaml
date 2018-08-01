@@ -12,3 +12,5 @@ trash
 /**/vendor
 
 /opam/opam
+
+yarn*.log

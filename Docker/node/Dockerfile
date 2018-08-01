@@ -1,0 +1,106 @@
+FROM mooxe/ocaml_base:dev
+
+MAINTAINER FooTearth "footearth@gmail.com"
+
+USER root
+WORKDIR /root
+
+# update
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get autoremove -y
+
+RUN apt-get install -y make g++
+
+USER opam
+WORKDIR /home/opam/opam-repository
+
+# nvm
+ENV NVM_VERSION 0.33.11
+# nvm - zsh spport
+RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v${NVM_VERSION}/install.sh | bash && \
+    echo ". ~/.nvm/nvm.sh" >> ~/.zshrc
+
+    # nvm - fish upport
+RUN fish -lc "fisher edc/bass nvm"
+# RUN echo "\
+# function nvm\n\
+#   bass source ~/.nvm/nvm.sh --no-use ';' nvm \$argv\n\
+# end" >> ~/.config/fish/config.fish
+
+    # git clone https://github.com/passcod/nvm-fish-wrapper.git ~/.config/fish/nvm-wrapper && \
+    # echo ". ~/.config/fish/nvm-wrapper/nvm.fish" >> ~/.config/fish/config.fish
+
+# npm
+ENV NODE_VERSION 10.7.0
+RUN cp -f ~/.nvm/nvm.sh ~/.nvm/nvm-tmp.sh && \
+    echo "nvm install v$NODE_VERSION" >> ~/.nvm/nvm-tmp.sh && \
+    echo "nvm alias 10 $NODE_VERSION" >> ~/.nvm/nvm-tmp.sh && \
+    echo "nvm alias default 10" >> ~/.nvm/nvm-tmp.sh && \
+    echo "nvm use default" >> ~/.nvm/nvm-tmp.sh && \
+    sh ~/.nvm/nvm-tmp.sh && \
+    rm ~/.nvm/nvm-tmp.sh && \
+    # cp /etc/profile /etc/profile.bak && \
+    echo '. ~/.nvm/nvm.sh' >> ~/.profile
+
+USER root
+WORKDIR /root
+
+# Yarn
+RUN bash -lc "curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -" && \
+    bash -lc "echo 'deb https://dl.yarnpkg.com/debian/ stable main' | tee /etc/apt/sources.list.d/yarn.list" && \
+    apt-get install -y apt-transport-https
+
+RUN apt-get update && apt-get install --no-install-recommends -y yarn
+
+USER opam
+WORKDIR /home/opam/opam-repository
+
+RUN /bin/bash -lc 'npm install -g yarn'
+
+# RUN yarn config set registry https://registry.npm.taobao.org
+# global package
+# RUN /bin/bash -lc 'npm install -g cnpm \
+    #   --registry=https://registry.npm.taobao.org'
+
+# -- npm root -g
+# -- yarn global bin
+# -- yarn global dir
+# NODE_PATH
+# PATH
+
+RUN /bin/bash -lc 'echo PATH=\"`yarn global bin`:\$PATH\" >> ~/.bashrc'
+# RUN /bin/zsh -lc 'echo PATH=\"`yarn global bin`:\$PATH\" >> ~/.zshrc'
+
+# RUN /bin/bash -lc "yarn config set prefix $(npm root -g)/../../"
+
+# -- --global-folder
+# RUN echo "--global-folder \"$(bash -lc 'npm root -g')/../\"" \
+#     >> ~/.yarnrc
+
+RUN /bin/bash -lc 'yarn global add yrm'
+RUN /bin/bash -lc 'yrm use taobao'
+
+# # -- --global-folder
+# # RUN echo "--global-folder \"$(bash -lc 'npm root -g')/../\"" \
+# #     >> ~/.yarnrc
+
+RUN /bin/bash -lc 'yarn global add npm yarn'
+RUN /bin/bash -lc 'yarn global add node-gyp'
+
+# RUN /bin/bash -lc 'yarn global add node-inspector'
+# RUN /bin/bash -lc 'yarn global add pnpm npm-check'
+
+RUN /bin/bash -lc 'yarn global add coffeescript'
+
+# RUN /bin/bash -lc 'yarn global add rollup gulp-cli'
+# RUN yarn global add harp
+
+RUN /bin/bash -lc 'yarn global add supervisor nodemon forever pm2'
+RUN /bin/bash -lc 'yarn global add serve http-server'
+RUN /bin/bash -lc 'yarn global add lerna autod'
+
+# RUN /bin/bash -lc 'yarn global add json-server'
+# RUN /bin/bash -lc 'yarn global add now'
+
+WORKDIR /home/opam
