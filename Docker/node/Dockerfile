@@ -1,4 +1,4 @@
-FROM mooxe/ocaml_base:dev
+FROM mooxe/ocaml
 
 MAINTAINER FooTearth "footearth@gmail.com"
 
