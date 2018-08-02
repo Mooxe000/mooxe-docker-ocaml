@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-: ${OPAM_VERSION=2.0.0-beta3}
+: ${OPAM_VERSION=2.0.0-rc4}
 : ${OPAM_URL_PREFIX=https://github.com/ocaml/opam/releases/download}
 : ${OPAM_BIN=/usr/local/bin/opam}
 

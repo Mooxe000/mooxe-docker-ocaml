@@ -13,17 +13,18 @@ RUN \
   apt-get install -y \
     curl make gcc g++ libev-dev \
     bzip2 unzip m4 \
-    rsync mercurial darcs 
+    rsync mercurial darcs bwrap
     # ocaml-nox opam m4 utop
 
 # ADD opam/opam /usr/local/bin/opam
 # RUN chmod +x /usr/local/bin/opam
+
 # RUN curl -kLo- \
 #   https://raw.githubusercontent.com/Mooxe000/mooxe-docker-ocaml/master/install.sh \
 #     | bash
+
 ADD ./install.sh ./install.sh
-RUN \
-  bash ./install.sh
+RUN /bin/bash ./install.sh
 
 RUN \
   echo "test -r /root/.opam/opam-init/init.sh && . /root/.opam/opam-init/init.sh > /dev/null 2> /dev/null || true" >> \
