@@ -77,8 +77,8 @@ RUN fish -lc "fisher omf/theme-robbyrussell"
 
 RUN echo "\
 set fish_greeting '' \n\
-set -x LC_ALL en_US.UTF-8 \n\
-set -x LC_CTYPE en_US.UTF-8 \
+set -gx LC_ALL en_US.UTF-8 \n\
+set -gx LC_CTYPE en_US.UTF-8 \
   " > ~/.config/fish/config.fish
 
 RUN \

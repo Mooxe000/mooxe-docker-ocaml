@@ -23,10 +23,12 @@ WORKDIR /home/opam
 RUN fish -lc "fisher edc/bass" && \
     fish -lc "bass eval opam env"
 
-RUN opam install --unlock-base -y \
-    conf-libev lwt utop \
-    core batteries
-# RUN opam install -y --unlock-base
+RUN opam install --unlock-base -y lwt_ppx lwt_log lwt
+RUN opam install --unlock-base -y utop
+RUN opam install --unlock-base -y core
+# RUN opam install --unlock-base -y conf-libev
+# RUN opam install --unlock-base -y batteries
+
 # ocamlscript 
 
 RUN \
