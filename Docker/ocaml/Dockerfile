@@ -11,7 +11,7 @@ RUN \
   apt-get install -y apt-utils && \
   apt-get -y upgrade
 
-RUN apt-get install -y m4
+RUN apt-get install -y m4 libev-dev
 
 RUN \
   apt-get autoremove -y && \
@@ -23,11 +23,11 @@ WORKDIR /home/opam
 RUN fish -lc "fisher edc/bass" && \
     fish -lc "bass eval opam env"
 
+RUN opam install --unlock-base -y conf-libev
 RUN opam install --unlock-base -y lwt_ppx lwt_log lwt
 RUN opam install --unlock-base -y utop
 RUN opam install --unlock-base -y core
-# RUN opam install --unlock-base -y conf-libev
-# RUN opam install --unlock-base -y batteries
+RUN opam install --unlock-base -y batteries
 
 # ocamlscript 
 

@@ -1,4 +1,4 @@
-FROM ocaml/opam2:ubuntu-18.04-ocaml-4.07
+FROM ocaml/opam2:ubuntu-18.04-ocaml-4.06
 
 MAINTAINER FooTearth "footearth@gmail.com"
 
