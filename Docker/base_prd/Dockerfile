@@ -1,4 +1,4 @@
-FROM ocaml/opam2:ubuntu-18.04-ocaml-4.06
+FROM ocaml/opam2:ubuntu-16.04-ocaml-4.08
 
 MAINTAINER FooTearth "footearth@gmail.com"
 
@@ -24,7 +24,6 @@ RUN \
 # system update
 RUN \
   apt-get update && \
-  apt-get install -y apt-utils && \
   apt-get -y upgrade
 
 RUN apt-get install -y curl apt-utils

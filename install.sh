@@ -5,6 +5,7 @@
 : ${OCAML_VERSION=4.07.0}
 : ${OCAML_SOURCE_DIR=ocaml-$OCAML_VERSION}
 : ${OCAML_URL_PREFIX=https://github.com/ocaml/ocaml/archive}
+# http://caml.inria.fr/pub/distrib/ocaml-4.07/ocaml-4.07.1.tar.gz
 
 mkdir -p ${BUILD_DIR}/${OCAML_SOURCE_DIR}
 pushd ${BUILD_DIR}

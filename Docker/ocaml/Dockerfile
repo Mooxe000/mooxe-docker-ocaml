@@ -8,7 +8,6 @@ WORKDIR /root
 # system update
 RUN \
   apt-get update && \
-  apt-get install -y apt-utils && \
   apt-get -y upgrade
 
 RUN apt-get install -y m4 libev-dev
@@ -23,9 +22,8 @@ WORKDIR /home/opam
 RUN fish -lc "fisher edc/bass" && \
     fish -lc "bass eval opam env"
 
-RUN opam install --unlock-base -y conf-libev
-RUN opam install --unlock-base -y lwt_ppx lwt_log lwt
 RUN opam install --unlock-base -y utop
+RUN opam install --unlock-base -y base
 RUN opam install --unlock-base -y core
 RUN opam install --unlock-base -y batteries
 
