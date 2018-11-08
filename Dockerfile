@@ -100,6 +100,9 @@ require "core.syntax";;\n\
 open Core;;\
 ' >> ~/.ocamlinit
 
+# RUN \
+#   opam install -y jbuild dune
+
 RUN \
   apt-get autoremove -y && \
   apt-get clean
