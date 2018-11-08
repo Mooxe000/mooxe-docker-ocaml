@@ -24,7 +24,7 @@ RUN curl -kL -O \
     dpkg -i ${BubblewrapDEB} && \
     rm -rf ${BubblewrapDEB}
 
-ENV OCAML_VERSION 4.07.0
+ENV OCAML_VERSION 4.07.1
 RUN mkdir -p ocaml && \
     cd ocaml && \
     curl -kL -o ocaml-${OCAML_VERSION} \
@@ -42,36 +42,81 @@ RUN curl -kL -o /usr/local/bin/opam \
       https://github.com/ocaml/opam/releases/download/${OPAM_VERSION}/opam-${OPAM_VERSION}-x86_64-linux && \
     chmod +x /usr/local/bin/opam
 
-# RUN \
-#   echo "test -r /root/.opam/opam-init/init.sh && . /root/.opam/opam-init/init.sh > /dev/null 2> /dev/null || true" >> \
-#     ~/.profile && \
-#   # bash
-#   bash -lc "opam init --shell=bash" && \
-#   bash -lc "eval $(opam env)" && \
-#   # zsh
-#   zsh -lc "opam init --shell=zsh" && \
-#   zsh -lc "eval $(opam env)" && \
-#   # fish
-#   echo "source /root/.opam/opam-init/init.fish > /dev/null 2> /dev/null; or true" >> \
-#     ~/.config/fish/config.fish && \
-#   fish -lc "opam init --shell=fish" && \
-#   fish -lc "fisher edc/bass" && \
-#   fish -lc "bass eval opam env"
+RUN \
+  echo "test -r /root/.opam/opam-init/init.sh && . /root/.opam/opam-init/init.sh > /dev/null 2> /dev/null || true" >> \
+    ~/.profile && \
+  # bash
+  bash -lc "opam init --disable-sandboxing --shell=bash" && \
+  # bash -lc "eval $(opam env)" && \
+  # zsh
+  zsh -lc "opam init --disable-sandboxing --shell=zsh" && \
+  # zsh -lc "eval $(opam env)" && \
+  # fish
+  echo "source /root/.opam/opam-init/init.fish > /dev/null 2> /dev/null; or true" >> \
+    ~/.config/fish/config.fish && \
+  fish -lc "opam init --disable-sandboxing --shell=fish" && \
+  fish -lc "fisher edc/bass"
+  # fish -lc "bass eval opam env"
 
-# RUN \
-#   opam install -y conf-libev lwt utop \
-#     core batteries \
-#     ocamlscript 
+RUN \
+  opam install -y conf-libev lwt \
+    utop core base batteries
+  # ppx_deriving
+  # ocamlscript 
 
-# RUN \
-#   echo '#\
-# use "topfind";;\n#\
-# thread;;\n#\
-# camlp4o;;\n#\
-# require "core.top";;\n#\
-# require "core.syntax";;\
-# ' >> ~/.ocamlinit
+# https://github.com/realworldocaml/book/issues/2804
+#
+# let () =
+#   try Topdirs.dir_directory (Sys.getenv "OCAML_TOPLEVEL_PATH")
+#   with Not_found -> ()
+# ;;
+# #use "topfind";;
+# #thread;;
+#
+# (* Core *)
+#
+# #require "core.top";;
+# #require "core.syntax";;
+# open Core;;
+#
 
-# RUN \
-#   apt-get autoremove -y && \
-#   apt-get clean
+# #use "topfind";;
+# #thread;;
+# #camlp4o;;
+# #require "core.top";;
+# #require "core.syntax";;
+
+RUN \
+  echo '\
+let () =\n\
+  try Topdirs.dir_directory (Sys.getenv "OCAML_TOPLEVEL_PATH")\n\
+  with Not_found -> ()\n\
+;;\n#\
+use "topfind";;\n#\
+thread;;\n\
+\n#\
+require "core.top";;\n#\
+require "core.syntax";;\n\
+open Core;;\
+' >> ~/.ocamlinit
+
+RUN \
+  apt-get autoremove -y && \
+  apt-get clean
+
+################################################
+
+# (* Less gaudy Utop prompt *)
+#
+# #require "react";;
+# #require "lambda-term";;
+# let open React in
+# let open LTerm_text in
+# let open LTerm_style in
+# UTop.prompt := fst (S.create (eval [S "\n"; B_fg cyan; S "# "]));;
+#
+# (* PPX *)
+#
+# #require "ppx_sexp_conv";;
+# #require "ppx_fields_conv";;
+# open Core.Std;;
