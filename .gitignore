@@ -11,8 +11,6 @@ trash
 /**/build
 /**/vendor
 
-/opam/opam
-
 yarn*.log
 
 _build
