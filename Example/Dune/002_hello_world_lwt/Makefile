@@ -1,8 +1,8 @@
 build:
 	@dune build hello_world.exe
 
-run:
+run: build
 	@./_build/default/hello_world.exe
 
 clean:
-	@rm -rf ./_build
+	@dune clean

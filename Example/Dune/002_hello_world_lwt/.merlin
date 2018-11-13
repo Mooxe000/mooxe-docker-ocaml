@@ -1,15 +1,15 @@
-B /root/.opam/default/lib/bytes
-B /root/.opam/default/lib/lwt
-B /root/.opam/default/lib/lwt/unix
-B /root/.opam/default/lib/result
-B /usr/local/lib/ocaml
-B /usr/local/lib/ocaml/threads
+B /root/.opam/4.07.1/lib/bytes
+B /root/.opam/4.07.1/lib/lwt
+B /root/.opam/4.07.1/lib/lwt/unix
+B /root/.opam/4.07.1/lib/ocaml
+B /root/.opam/4.07.1/lib/ocaml/threads
+B /root/.opam/4.07.1/lib/result
 B _build/default/.hello_world.eobjs
-S /root/.opam/default/lib/bytes
-S /root/.opam/default/lib/lwt
-S /root/.opam/default/lib/lwt/unix
-S /root/.opam/default/lib/result
-S /usr/local/lib/ocaml
-S /usr/local/lib/ocaml/threads
+S /root/.opam/4.07.1/lib/bytes
+S /root/.opam/4.07.1/lib/lwt
+S /root/.opam/4.07.1/lib/lwt/unix
+S /root/.opam/4.07.1/lib/ocaml
+S /root/.opam/4.07.1/lib/ocaml/threads
+S /root/.opam/4.07.1/lib/result
 S .
 FLG -w @a-4-29-40-41-42-44-45-48-58-59-60-40 -strict-sequence -strict-formats -short-paths -keep-locs
